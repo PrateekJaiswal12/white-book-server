@@ -4,9 +4,11 @@ const { Server } = require("socket.io");
 const cors = require('cors');
 
 const app = express();
-app.use(cors({origin: 'https://localhost:3000'}))
+const isDev = app.settings.env === 'development'
+const URL = isDev ? 'https://localhost:3000' : 'https://whitebook-liart.vercel.app/'
+app.use(cors({origin: URL}))
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: 'https://localhost:3000' });
+const io = new Server(httpServer, { cors: URL });
 
 io.on("connection", (socket) => {
    
